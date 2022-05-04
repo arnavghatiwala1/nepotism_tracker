@@ -1,0 +1,23 @@
+Project Name: Nepotism Tracker
+
+Team Members: Insha Lakhani, Arnav Ghatiwala, Sanya Shetty
+
+Project Description: Our project aims to determine the relationship between the amount of nepotism present in the
+Bollywood industry and the success of such actors who are heavily affected by nepotism. We represent nepotism with
+connectedness in our graph, such that actors who are part of larger connected components represent those who are more
+likely to be subject to nepotism as they have more connections. In terms of software, we have various classes which
+serve to web scrape the Wikipedia and Rotten Tomatoes websites, as well as an implementation of the BFS algorithm in
+order to traverse the graph that we create based on the scraped data. Using the data that was collected and analyzed
+using our code, we created a written report detailing our findings.
+
+Concepts used: The first concept we used was Document Search (aka Information Retrieval), which was utilized when web
+scraping to gather data from the Wikipedia pages and the Rotten Tomatoes website. The second concept we used was Graph
+and graph algorithms, through which we used the BFS algorithm in order to analyze our graph and determine its
+connectedness as well as how connected individual nodes in the graph were to each other.
+
+Work Breakdown: Arnav worked on the Wikipedia webscraping to create a list of Bollywood actors and actresses as well as
+adjacency lists for each of them, Insha worked on the Rotten Tomatoes webscraping to create a mapping of each actor and
+actress to their average movie rating and average box office sales, and Sanya worked on the BFS implementation in order
+to determine the overall number of connected components in the graph as well as the size of each actor's connected
+component. Then, Insha worked on a regression model to analyze the data that was collected while Arnav and Sanya
+wrote and organized the final report.
