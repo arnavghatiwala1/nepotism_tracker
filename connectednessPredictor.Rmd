@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(shiny)
+library(DT)
+library(tidyverse)
+library(rsconnect)
+rsconnect::setAccountInfo(name='inshalakhan',
+                          token='F151963609D07C01479D72BBE0EFB757',
+                          secret='dZh05/hZhkB6x5r86GAf6Iio4m9Rx8XaZ61euQLa')
+
+data_Actors <- as.data.frame(read_csv(file.choose()))
+train <- data_Actors[1:(0.8*nrow(data)) , ]
+test <- data_Actors[(round(0.8*nrow(data)):nrow(data)), ]
+head(train)
+
+regression <- lm(box_office_Score ~ connected_comp, data = train, family = "binomial")
+summary(regression)
+
+test$predictions <-predict(regression, newdata = test)
+
+
+irisModel <- 
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  titlePanel("How Connected Are You? Based on Debut Box Office Data"),
+  sidebarLayout(
+    sidebarPanel(
+      fileInput("file1", "upload csv file here",
+                multiple = FALSE,
+                accept = c("text/csv",
+                           "text/comma-separated-values,text/plain",
+                           ".csv")), 
+      downloadButton("downloadData", "Download the Predicted Data from Here")
+    ),
+    mainPanel(
+      DT::dataTableOutput("mytable")
+    )
+  )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  reactiveDF<-reactive({
+    req(input$file1)
+    df <- read.csv(input$file1$datapath, stringsAsFactors = TRUE)
+    df$predictions<-predict(regression, df , type ="class")
+    return(df)
+  })
+  
+  output$mytable = DT::renderDataTable({
+    req(input$file1)
+    
+    return(DT::datatable(reactiveDF(),  options = list(pageLength = 100), filter = c("top")))
+  })
+  
+  
+  # Downloadable csv of selected dataset ----
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(reactiveDF(), file, row.names = FALSE)
+    }
+  )
+  
+  
+}
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
