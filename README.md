@@ -6,3 +6,5 @@ all Bollywood celebrities, their relatives, and the performance of their movies.
 and two nodes share an edge if the celebrities are related. Then, we conduct Breadth-First Search to count the number of connected components
 in the graph. The limited number of connected components compared to the number of actual celebrities showed the extent of nepotism in the
 industry.
+
+For detailed information about the project, look at the project report present in the repository.
